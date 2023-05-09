@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-let key = '12345678';
+let key = process.env.JWT_KEY;
 
 const generateToken = (payload) => {
     const verifyOpts = {

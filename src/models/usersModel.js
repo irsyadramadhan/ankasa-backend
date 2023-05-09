@@ -8,7 +8,7 @@ const createUser = (data) => {
                 resolve(result);
             } else {
                 reject(err);
-            }
+            };
         });
     });
 };
@@ -20,9 +20,21 @@ const findUserByEmail = (email) => {
                 resolve(result);
             } else {
                 reject(err);
-            }
+            };
         });
     });
 };
 
-module.exports = {createUser, findUserByEmail};
+const findUserById = (id) => {
+    return new Promise((resolve, reject) => {
+        Pool.query(`SELECT * FROM users WHERE id = '${id}'`, (err, result) => {
+            if (!err) {
+                resolve(result);
+            } else {
+                reject(err);
+            };
+        });
+    });
+};
+
+module.exports = {createUser, findUserByEmail, findUserById};

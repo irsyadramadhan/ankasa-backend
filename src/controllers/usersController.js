@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const argon2 = require('argon2');
 const generateToken = require('../helpers/generateToken');
-const {createUser, findUserByEmail} = require('../models/usersModel');
+const {createUser, findUserByEmail, findUserById} = require('../models/usersModel');
 
 const UsersController = {
     registerUser: async (req, res) => {
@@ -44,6 +44,12 @@ const UsersController = {
         } else {
             return res.status(404).json({status: 404, message: 'incorrect password'});
         }
+    },
+    getUserById: async (req, res) => {
+        let id = req.params.id;
+        let response = await findUserById(id);
+        if (!response) return res.status(404).json({status: 404, message: 'get user failed'});
+        if (response) return res.status(200).json({status: 200, message: 'get user success', data: response.rows});
     }
 }
 
