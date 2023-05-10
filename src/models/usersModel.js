@@ -37,4 +37,17 @@ const findUserById = (id) => {
     });
 };
 
-module.exports = {createUser, findUserByEmail, findUserById};
+const updateUserData = (id, data) => {
+    let {fullname, email, phone, city, country} = data;
+    return new Promise((resolve, reject) => {
+        Pool.query(`UPDATE users SET fullname = '${fullname}', email = '${email}', phone = '${phone}', city = '${city}', country = '${country}' WHERE id = '${id}'`, (err, result) => {
+            if (!err) {
+                resolve(result);
+            } else {
+                reject(err);
+            };
+        });
+    });
+};
+
+module.exports = {createUser, findUserByEmail, findUserById, updateUserData};

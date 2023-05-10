@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const argon2 = require('argon2');
 const generateToken = require('../helpers/generateToken');
-const {createUser, findUserByEmail, findUserById} = require('../models/usersModel');
+const {createUser, findUserByEmail, findUserById, updateUserData} = require('../models/usersModel');
 
 const UsersController = {
     registerUser: async (req, res) => {
@@ -50,6 +50,18 @@ const UsersController = {
         let response = await findUserById(id);
         if (!response) return res.status(404).json({status: 404, message: 'get user failed'});
         if (response) return res.status(200).json({status: 200, message: 'get user success', data: response.rows});
+    },
+    putUserData: async (req, res) => {
+        let id = req.params.id;
+        let fullname = req.body.fullname;
+        let email = req.body.email;
+        let phone = req.body.phone;
+        let city = req.body.city;
+        let country = req.body.country;
+        let data = {fullname, email, phone, city, country};
+        const response = await updateUserData(id, data);
+        if (!response) return res.status(404).json({status: 404, message: 'update user failed'});
+        if (response) return res.status(201).json({status: 404, message: 'update user success'});
     }
 }
 
