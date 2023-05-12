@@ -15,7 +15,7 @@ const insertBooking = (data) => {
 
 const selectBookingByUserId = (id) => {
     return new Promise((resolve, reject) => {
-        Pool.query(`SELECT airline.name, airline.image, ticket.origin_code, ticket.destination_code, ticket.origin_city, ticket.origin_country, ticket.destination_city, ticket.destination_country, ticket.time_takeoff, ticket.time_landing, ticket.flight_duration, ticket.transit, ticket.luggage, ticket.meal, ticket.wifi, ticket.flight_class, booking.paid, booking.insurance, booking.subtotal, booking.total, booking.total_passenger
+        Pool.query(`SELECT booking.id, airline.name, airline.image, ticket.origin_code, ticket.destination_code, ticket.origin_city, ticket.origin_country, ticket.destination_city, ticket.destination_country, ticket.time_takeoff, ticket.time_landing, ticket.flight_duration, ticket.transit, ticket.luggage, ticket.meal, ticket.wifi, ticket.flight_class, booking.paid, booking.insurance, booking.subtotal, booking.total, booking.total_passenger
         FROM booking
         JOIN ticket ON booking.ticket_id = ticket.id
         JOIN airline ON ticket.airline_id = airline.id
@@ -31,7 +31,7 @@ const selectBookingByUserId = (id) => {
 
 const selectBookingById = (id) => {
     return new Promise((resolve, reject) => {
-        Pool.query(`SELECT airline.name, airline.image, ticket.origin_code, ticket.destination_code, ticket.origin_city, ticket.origin_country, ticket.destination_city, ticket.destination_country, ticket.time_takeoff, ticket.time_landing, ticket.flight_duration, ticket.transit, ticket.luggage, ticket.meal, ticket.wifi, ticket.flight_class, booking.paid, booking.insurance, booking.subtotal, booking.total, booking.total_passenger
+        Pool.query(`SELECT booking.id, airline.name, airline.image, ticket.origin_code, ticket.destination_code, ticket.origin_city, ticket.origin_country, ticket.destination_city, ticket.destination_country, ticket.time_takeoff, ticket.time_landing, ticket.flight_duration, ticket.transit, ticket.luggage, ticket.meal, ticket.wifi, ticket.flight_class, booking.paid, booking.insurance, booking.subtotal, booking.total, booking.total_passenger
         FROM booking
         JOIN ticket ON booking.ticket_id = ticket.id
         JOIN airline ON ticket.airline_id = airline.id
@@ -45,4 +45,16 @@ const selectBookingById = (id) => {
     });
 };
 
-module.exports = {insertBooking, selectBookingByUserId, selectBookingById};
+const updateBookingStatus = (id, userId) => {
+    return new Promise((resolve, reject) => {
+        Pool.query(`UPDATE booking SET paid = 1 WHERE booking.id = ${id} AND user_id = '${userId}'`, (err, result) => {
+            if (!err) {
+                resolve(result);
+            } else {
+                reject(err);
+            };
+        });
+    });
+};
+
+module.exports = {insertBooking, selectBookingByUserId, selectBookingById, updateBookingStatus};

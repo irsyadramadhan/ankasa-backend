@@ -14,16 +14,16 @@ const protect = (req, res, next) => {
             req.payload = decode;
             next();
         } else {
-            res.status(404).json({status: 404, messange: 'cant access'});
+            res.status(404).json({status: 404, message: 'cant access'});
         }
     } catch (error) {
         console.log('error: ', error);
         if (error && error.name == 'JsonWebTokenError') {
-            res.status(404).json({status: 404, messange: 'invalid token'});
+            res.status(404).json({status: 404, message: 'invalid token'});
         } else if (error && error.name == 'TokenExpireError') {
-            res.status(404).json({status: 404, messange: 'token expired'});
+            res.status(404).json({status: 404, message: 'token expired'});
         } else {
-            res.status(404).json({status: 404, messange: 'token not active'});
+            res.status(404).json({status: 404, message: 'token not active'});
         }
     }
 }
