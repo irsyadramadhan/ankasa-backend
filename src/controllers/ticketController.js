@@ -6,8 +6,6 @@ const ticketController = {
         let data = {
             searchBy: searchBy || 'destination_country',
             searchValue: searchValue || '',
-            sortValue: sortValue || 'ASC',
-            limit: limit || 6,
         };
         const response = await selectTicket(data);
         if (!response) return res.status(404).json({status: 404, message: 'get ticket failed'});
